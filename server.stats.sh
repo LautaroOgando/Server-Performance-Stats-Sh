@@ -1,9 +1,7 @@
 #!/bin/bash
 os_name=$(grep 'PRETTY' /etc/os-release | cut -d = -f2 | awk '{gsub(/"/, "", $0); print $1, $2, $3, $4}');
-echo -e "$os_name\n";
 
 uptime=$(uptime | awk '{sub (/,$/,"",$4); print $3, $4}')
-echo -e "Uptime: $uptime\n"
 
 users_live=$(uptime | awk '{sub (/,$/,"",$7); print $6, $7}')
 echo -e "Users Now: $users_live\n"
@@ -39,20 +37,22 @@ mem_free_percent=$(echo "scale=2; $mem_free_percent * 100 / $mem_total_percent" 
 mem_available_percent=$(echo $mem_available | tr -d '[:alpha:]')
 mem_available_percent=$(echo "scale=2; $mem_available_percent * 100 / $mem_total_percent" | bc)
 
-echo "Memory Total: $mem_total ";
-echo "Memory Used: $mem_used / ($mem_used_percent%)";
-echo "Memory Free: $mem_free / ($mem_free_percent%)";
-echo "Memory Available: $mem_available / ($mem_available_percent%)";
-echo -e "\n";
-
-echo "Disk Total: $disk_total";
-echo "Disk Used: $disk_used / ($((100 - disk_free_percent))%)";
-echo -e "Disk Free: $disk_free / ($disk_free_percent%)\n";
-
-
-echo -e "CPU Usage: $cpu_usage%\n";
-echo -e "Top 5 Processes by CPU Usage:\n";
-echo -e "$top_five_processes_by_cpu\n";
-
-echo -e "Top 5 Processes by Memory Usage:\n";
-echo "$top_five_processes_by_mem";  
+echo "========== System Info =========="
+echo -e "$os_name\n"
+echo "Uptime: $uptime"
+echo "Users Now: $users_live"
+echo "========== Memory =========="
+echo "Total: $mem_total"
+echo "Used: $mem_used / ($mem_used_percent%)"
+echo "Free: $mem_free / ($mem_free_percent%)"
+echo "Available: $mem_available / ($mem_available_percent%)"
+echo "========== Disk =========="
+echo "Total: $disk_total"
+echo "Used: $disk_used / ($((100 - disk_free_percent))%)"
+echo "Free: $disk_free / ($disk_free_percent%)"
+echo "========== CPU =========="
+echo "Usage: $cpu_usage%"
+echo "========== Top 5 Processes by CPU =========="
+echo "$top_five_processes_by_cpu"
+echo "========== Top 5 Processes by Memory =========="
+echo "$top_five_processes_by_mem"
