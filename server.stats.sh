@@ -1,6 +1,12 @@
 #!/bin/bash
-os_name=$(grep 'PRETTY' /etc/os-release | cut -d = -f2);
+os_name=$(grep 'PRETTY' /etc/os-release | cut -d = -f2 | awk '{gsub(/"/, "", $0); print $1, $2, $3, $4}');
 echo -e "$os_name\n";
+
+uptime=$(uptime | awk '{sub (/,$/,"",$4); print $3, $4}')
+echo -e "Uptime: $uptime\n"
+
+users_live=$(uptime | awk '{sub (/,$/,"",$7); print $6, $7}')
+echo -e "Users Now: $users_live\n"
 
 disk_total=$(df -h --total | grep 'total' | awk '{print $2}');
 disk_used=$(df -h --total | grep 'total' | awk '{print $3}');
